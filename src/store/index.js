@@ -68,26 +68,32 @@ export default new Vuex.Store({
           })
       })
     },
-    // register({commit}, user){
-    // 	return new Promise((resolve, reject) => {
-    //         commit('auth_request')
-    //         axios({url: 'http://localhost:8000/register', data: user, method: 'POST' })
-    //         .then(response => {
-    //             const token = response.data.token
-    //             const logged = response.data.logged
-    //             localStorage.setItem('Authorization', token)
-    //             // Add the following line:
-    //             axios.defaults.headers.common['Authorization'] = token
-    //             commit('auth_success', token, logged)
-    //             resolve(response)
-    //         })
-    //         .catch(err => {
-    //             commit('auth_error', err)
-    //             localStorage.removeItem('Authorization')
-    //             reject(err)
-    //         })
-    //     })
-    // },
+    register({
+      commit
+    }, user) {
+      return new Promise((resolve, reject) => {
+        commit('auth_request')
+        axios({
+            url: '/register',
+            data: user,
+            method: 'POST'
+          })
+          .then(response => {
+            const token = response.data.token
+            const logged = response.data.logged
+            localStorage.setItem('Authorization', token)
+            // Add the following line:
+            axios.defaults.headers.common['Authorization'] = token
+            commit('auth_success', token, logged)
+            resolve(response)
+          })
+          .catch(err => {
+            commit('auth_error', err)
+            localStorage.removeItem('Authorization')
+            reject(err)
+          })
+      })
+    },
     logout({
       commit
     }) {

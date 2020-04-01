@@ -124,11 +124,11 @@
         lastname: "",
         email: "",
         password: "",
-        password_confirmation: ""
+        password_confirmation: "",
       };
     },
     methods: {
-      Register() {
+      Register: function() {
         let firstname = this.firstname;
         let lastname = this.lastname;
         let email = this.email;
@@ -142,10 +142,7 @@
             password,
             password_confirmation
           })
-          .then(response => {
-            () => this.$router.push('/');
-            console.log("berhasil");
-          })
+          .then(() => this.$router.push('/'))
           .catch(err => console.log(err));
       }
     }

@@ -23,7 +23,7 @@
                   href="#"
                   data-toggle="dropdown"
                   id="profileDropdown"
-                >Hi, Siswa</a>
+                >Hi, User</a>
                 <div
                   @click="logout"
                   class="dropdown-menu dropdown-menu-right navbar-dropdown"
@@ -64,7 +64,7 @@
 
 <script>
   export default {
-    name: "navbar",
+    name: 'navbar',
     computed: {
       isLoggedIn: function() {
         return this.$store.getters.isLoggedIn;
@@ -79,7 +79,7 @@
         };
         let form = new FormData();
         this.axios
-          .post("/logout", form, conf)
+          .post('/logout', form, conf)
           .then(response => {
             if (response.data.logged === false || response.data.status === 0) {
               this.$store.commit("logout");
