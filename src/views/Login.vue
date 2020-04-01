@@ -9,7 +9,7 @@
             </div>
             <h4>Selamat datang!</h4>
             <h6 class="font-weight-light">Login untuk mengakses aplikasi daily scrum.</h6>
-            <form class="pt-3" method="post" action="#">
+            <form v-on:submit.prevent="Login">
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend bg-transparent">
@@ -22,6 +22,7 @@
                     class="form-control form-control-lg border-left-0"
                     id="email"
                     name="email"
+                    v-model="email"
                     placeholder="E-Mail"
                     required
                   />
@@ -39,6 +40,7 @@
                     class="form-control form-control-lg border-left-0"
                     name="password"
                     id="password"
+                    v-model="password"
                     placeholder="Kata Sandi"
                     required
                   />
@@ -59,3 +61,23 @@
     </div>
   </div>
 </template>
+
+<script>
+  export default {
+    data() {
+      return {
+        email: '',
+        password: '',
+      }
+    },
+    methods: {
+        Login: function(){
+            let email = this.email 
+            let password = this.password
+            this.$store.dispatch('login', { email, password })
+            .then(() => this.$router.push('/'))
+            .catch(err => console.log(err))
+        }
+    }
+  };
+</script>

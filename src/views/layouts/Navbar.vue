@@ -6,10 +6,10 @@
           <div
             class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center"
           >
-            <a class="navbar-brand brand-logo" href="index.html">
+            <a class="navbar-brand brand-logo" href="/">
               <img src="assets/img/logo.png" />
             </a>
-            <a class="navbar-brand brand-logo-mini" href="index.html">
+            <a class="navbar-brand brand-logo-mini" href="/">
               <img src="assets/img/logo.png" />
             </a>
           </div>
@@ -25,6 +25,7 @@
                   id="profileDropdown"
                 >Hi, Siswa</a>
                 <div
+                  @click="logout"
                   class="dropdown-menu dropdown-menu-right navbar-dropdown"
                   aria-labelledby="profileDropdown"
                 >
@@ -50,7 +51,7 @@
       <div class="container">
         <ul class="nav page-navigation">
           <li class="nav-item">
-            <a class="nav-link" href="input_daily_scrum.html">
+            <a class="nav-link" href="/">
               <i class="mdi mdi-format-list-bulleted menu-icon"></i>
               <span class="menu-title">My Daily Scrum</span>
             </a>
@@ -60,3 +61,34 @@
     </nav>
   </div>
 </template>
+
+<script>
+  export default {
+    name: "navbar",
+    computed: {
+      isLoggedIn: function() {
+        return this.$store.getters.isLoggedIn;
+      }
+    },
+    methods: {
+      logout: function() {
+        let conf = {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("Authorization")
+          }
+        };
+        let form = new FormData();
+        this.axios
+          .post("/logout", form, conf)
+          .then(response => {
+            if (response.data.logged === false || response.data.status === 0) {
+              this.$store.commit("logout");
+              localStorage.removeItem("Authorization");
+              this.$router.push({ name: "login" });
+            }
+          })
+          .catch(error => {});
+      }
+    }
+  };
+</script>

@@ -5,11 +5,11 @@
         <div class="col-lg-4 mx-auto">
           <div class="auth-form-light text-left p-5">
             <div class="navbar-brand brand-logo">
-              <img src="assets/img/logo.svg" />
+              <img src="assets/img/logo.png" />
             </div>
             <h4>Selamat datang!</h4>
             <h6 class="font-weight-light">Daftar untuk menggunakan aplikasi daily scrum.</h6>
-            <form class="pt-3" method="post" action="#">
+            <form class="pt-3" method="post" action="#" v-on:submit.prevent="Register">
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend bg-transparent">
@@ -22,6 +22,7 @@
                     class="form-control form-control-lg border-left-0"
                     id="firstname"
                     name="firstname"
+                    v-model="firstname"
                     placeholder="First Name"
                     required
                   />
@@ -39,6 +40,7 @@
                     class="form-control form-control-lg border-left-0"
                     id="lastname"
                     name="lastname"
+                    v-model="lastname"
                     placeholder="Last Name"
                     required
                   />
@@ -56,6 +58,7 @@
                     class="form-control form-control-lg border-left-0"
                     id="email"
                     name="email"
+                    v-model="email"
                     placeholder="E-Mail"
                     required
                   />
@@ -73,6 +76,7 @@
                     class="form-control form-control-lg border-left-0"
                     name="password"
                     id="password"
+                    v-model="password"
                     placeholder="New Password"
                     required
                   />
@@ -90,6 +94,7 @@
                     class="form-control form-control-lg border-left-0"
                     name="password_verify"
                     id="password_verify"
+                    v-model="password_confirmation"
                     placeholder="Retype Your New Password"
                     required
                   />
@@ -110,3 +115,39 @@
     </div>
   </div>
 </template>
+
+<script>
+  export default {
+    data() {
+      return {
+        firstname: "",
+        lastname: "",
+        email: "",
+        password: "",
+        password_confirmation: ""
+      };
+    },
+    methods: {
+      Register() {
+        let firstname = this.firstname;
+        let lastname = this.lastname;
+        let email = this.email;
+        let password = this.password;
+        let password_confirmation = this.password_confirmation;
+        this.$store
+          .dispatch('register', {
+            firstname,
+            lastname,
+            email,
+            password,
+            password_confirmation
+          })
+          .then(response => {
+            () => this.$router.push('/');
+            console.log("berhasil");
+          })
+          .catch(err => console.log(err));
+      }
+    }
+  };
+</script>
