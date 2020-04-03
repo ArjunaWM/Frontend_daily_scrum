@@ -9,7 +9,7 @@
             </div>
             <h4>Selamat datang!</h4>
             <h6 class="font-weight-light">Login untuk mengakses aplikasi daily scrum.</h6>
-            <form v-on:submit.prevent="Login">
+            <form class="pt-3" method="post" action="#" v-on:submit.prevent="Login">
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend bg-transparent">
@@ -55,6 +55,7 @@
                 />
               </div>
             </form>
+            <label>Belum terdaftar? <br/> <a href="/register"> Register </a></label>
           </div>
         </div>
       </div>
@@ -66,18 +67,27 @@
   export default {
     data() {
       return {
-        email: '',
-        password: '',
-      }
+        email: "",
+        password: ""
+      };
     },
     methods: {
-        Login: function(){
-            let email = this.email 
-            let password = this.password
-            this.$store.dispatch('login', { email, password })
-            .then(() => this.$router.push('/'))
-            .catch(err => console.log(err))
+      Login: function() {
+        let email = this.email;
+        let password = this.password;
+        this.$store
+          .dispatch("login", { email, password })
+          .then(response => {
+            console.log("berhasil");
+            this.$router.push({ path: "/" });
+          })
+          .catch(err => console.log(err));
+      },
+      mounted() {
+        if (!localStorage.getItem("Authorization") == null) {
+          this.$router.push({ path: "/" });
         }
+      }
     }
   };
 </script>

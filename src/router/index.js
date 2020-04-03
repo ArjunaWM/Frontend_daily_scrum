@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import VueCookies from 'vue-cookies'
 
 import store from '../store'
 
@@ -27,6 +26,9 @@ const routes = [
     path: '/',
     name: 'home',
     components: {default: Home, header: Navbar, footer: Footer},
+    meta: {
+      requiresAuth: true,
+    }
   },
 ]
 

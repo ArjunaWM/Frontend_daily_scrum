@@ -17,7 +17,6 @@ export default new Vuex.Store({
     auth_success(state, token) {
       state.status = 'success'
       state.token = token
-      // state.logged = logged
     },
     userDetail(state, user) {
       state.user = user
@@ -45,10 +44,10 @@ export default new Vuex.Store({
             const token = response.data.token
             const logged = response.data.logged
             localStorage.setItem('Authorization', token)
-            // Add the following line:
+
             axios.defaults.headers.common['Authorization'] = token
             commit('auth_success', token)
-            //get detail user
+
             let conf = {
               headers: {
                 "Authorization": "Bearer" + token
@@ -56,7 +55,7 @@ export default new Vuex.Store({
             };
             axios.get("/login/check", conf)
               .then(response => {
-                //simpan detail login ke state
+
                 commit('userDetail', response.data.user)
               })
             resolve(response)
@@ -82,7 +81,7 @@ export default new Vuex.Store({
             const token = response.data.token
             const logged = response.data.logged
             localStorage.setItem('Authorization', token)
-            // Add the following line:
+
             axios.defaults.headers.common['Authorization'] = token
             commit('auth_success', token, logged)
             resolve(response)

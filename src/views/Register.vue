@@ -109,6 +109,7 @@
                 />
               </div>
             </form>
+            <label>Sudah terdaftar?<br/> <a href="/login"> Login </a></label>
           </div>
         </div>
       </div>
@@ -124,7 +125,7 @@
         lastname: "",
         email: "",
         password: "",
-        password_confirmation: "",
+        password_confirmation: ""
       };
     },
     methods: {
@@ -135,14 +136,14 @@
         let password = this.password;
         let password_confirmation = this.password_confirmation;
         this.$store
-          .dispatch('register', {
+          .dispatch("register", {
             firstname,
             lastname,
             email,
             password,
             password_confirmation
           })
-          .then(() => this.$router.push('/'))
+          .then(() => this.$router.push("/"))
           .catch(err => console.log(err));
       }
     }
