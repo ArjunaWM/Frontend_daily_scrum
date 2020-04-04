@@ -63,7 +63,7 @@
 </template>
 
 <script>
-  export default {
+  module.exports = {
     name: 'navbar',
     computed: {
       isLoggedIn: function() {

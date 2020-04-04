@@ -19,8 +19,11 @@
                   <div class="table-responsive">
                     <b-table striped hover :items="dataDaily" :fields="fields">
                       <template v-slot:cell(aksi)="data">
+                        <b-button size="sm" variant="info" v-on:click="Edit(data.item)" v-b-modal.modalDaily>
+                          <i class="mdi mdi-pencil btn-icon-prepend"></i>
+                        </b-button>
                         <b-button size="sm" variant="danger" v-on:click="Drop(data.item.id)">
-                          <i class="mdi mdi-delete btn-icon-prepend"></i> Hapus
+                          <i class="mdi mdi-delete btn-icon-prepend"></i>
                         </b-button>
                       </template>
                     </b-table>
@@ -57,7 +60,7 @@
           aria-hidden="true"
         >
           <b-modal id="modalDaily" @ok="Save">
-            <template v-slot:modal-title>Add Activity</template>
+            <template v-slot:modal-title>Edit Data</template>
             <form ref="form">
               <div class="form-group">
                 <label for="team" class="col-form-label">Your Team</label>
@@ -224,6 +227,16 @@
         this.solution = "";
       },
 
+      Edit: function(item) {
+        this.action = "update";
+        this.id = item.id;
+        this.team = item.team;
+        this.activity_yesterday = item.activity_yesterday;
+        this.activity_today = item.activity_today;
+        this.problem_yesterday = item.problem_yesterday;
+        this.solution = item.solution;
+      },
+
       Save: function() {
         let conf = { headers: { Authorization: "Bearer " + this.key } };
         this.$bvToast.show("loadingToast");
@@ -238,6 +251,29 @@
 
           this.axios
             .post("/daily", form, conf)
+            .then(response => {
+              this.$bvToast.hide("loadingToast");
+              if (this.search == "") {
+                this.getData();
+              } else {
+                this.searching();
+              }
+              this.message = response.data.message;
+              this.$bvToast.show("message");
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        } else {
+          let form = {
+            team: this.team,
+            activity_yesterday: this.activity_yesterday,
+            activity_today: this.activity_today,
+            problem_yesterday: this.problem_yesterday,
+            solution: this.solution,
+          };
+          this.axios
+            .put("/daily/" + this.id, form, conf)
             .then(response => {
               this.$bvToast.hide("loadingToast");
               if (this.search == "") {
